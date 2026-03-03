@@ -15,7 +15,6 @@
 <body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8] min-h-screen flex items-center justify-center p-4">
 
   <div class="max-w-md w-full">
-    <!-- Logo -->
     <div class="flex justify-center mb-8">
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 bg-[#008000] rounded-3xl flex items-center justify-center text-white text-4xl">🌱</div>
@@ -27,68 +26,66 @@
       <h1 class="heading text-3xl font-bold text-center mb-2">Welcome back</h1>
       <p class="text-center opacity-70 mb-8">Login to your SACCO or VSLA</p>
 
-      <!-- Persona toggle -->
       <div class="flex bg-gray-100 dark:bg-gray-800 rounded-3xl p-1 mb-8">
-        <button onclick="switchPersona(0)" id="btn-mama" 
-          class="flex-1 py-3 rounded-3xl font-medium text-sm transition">Mama Amina (Phone)</button>
-        <button onclick="switchPersona(1)" id="btn-joseph" 
-          class="flex-1 py-3 rounded-3xl font-medium text-sm transition">Joseph (Manager)</button>
+        <button onclick="switchPersona(0)" id="btn-mama" class="flex-1 py-3 rounded-3xl font-medium text-sm transition">Mama Amina (Phone)</button>
+        <button onclick="switchPersona(1)" id="btn-joseph" class="flex-1 py-3 rounded-3xl font-medium text-sm transition">Joseph (Manager)</button>
       </div>
 
       <div class="space-y-6">
-        <!-- Phone / Email -->
         <div>
           <label class="block text-sm opacity-70 mb-2">Phone number or Email</label>
-          <input id="login-input" type="text" value="+256 700 123 456" 
-            class="w-full bg-[#F8FAFC] dark:bg-[#1E2A44] border border-gray-300 dark:border-gray-600 rounded-3xl px-6 py-5 outline-none text-base">
+          <input id="login-input" type="text" value="+256 700 123 456" class="w-full bg-[#F8FAFC] dark:bg-[#1E2A44] border border-gray-300 dark:border-gray-600 rounded-3xl px-6 py-5 outline-none text-base">
         </div>
 
-        <!-- PIN -->
         <div>
           <label class="block text-sm opacity-70 mb-2">Security PIN (4 digits)</label>
-          <input id="pin-input" type="password" maxlength="4" placeholder="••••" 
-            class="w-full bg-[#F8FAFC] dark:bg-[#1E2A44] border border-gray-300 dark:border-gray-600 rounded-3xl px-6 py-5 outline-none text-3xl tracking-widest text-center">
+          <input id="pin-input" type="password" maxlength="4" placeholder="••••" class="w-full bg-[#F8FAFC] dark:bg-[#1E2A44] border border-gray-300 dark:border-gray-600 rounded-3xl px-6 py-5 outline-none text-3xl tracking-widest text-center">
         </div>
 
-        <!-- Swahili hint -->
-        <div class="text-xs opacity-60 text-center">Unaweza kutumia sauti pia (Voice login coming soon)</div>
+        <!-- NEW: Biometric login -->
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="biometricLogin()" 
+            class="bg-[#008000] hover:bg-[#006600] text-white py-6 rounded-3xl flex flex-col items-center gap-2 transition">
+            <i class="fa-solid fa-fingerprint text-3xl"></i>
+            <span class="text-sm font-medium">Fingerprint</span>
+          </button>
+          <button onclick="biometricLogin()" 
+            class="bg-[#008000] hover:bg-[#006600] text-white py-6 rounded-3xl flex flex-col items-center gap-2 transition">
+            <i class="fa-solid fa-face-smile text-3xl"></i>
+            <span class="text-sm font-medium">Face ID</span>
+          </button>
+        </div>
 
-        <!-- Login button -->
-        <button onclick="performLogin()" 
-          class="w-full bg-[#008000] hover:bg-[#006600] text-white font-semibold py-6 rounded-3xl text-lg transition">
-          Login Securely
+        <div class="text-xs opacity-60 text-center">Unaweza kutumia kidole au uso (Fingerprint / Face ID)</div>
+
+        <button onclick="performLogin()" class="w-full bg-[#008000] hover:bg-[#006600] text-white font-semibold py-6 rounded-3xl text-lg transition">
+          Login with PIN
         </button>
 
-        <!-- USSD option -->
-        <button onclick="showUSSDLogin()" 
-          class="w-full border-2 border-[#FF6600] text-[#FF6600] font-medium py-5 rounded-3xl flex items-center justify-center gap-3">
+        <button onclick="showUSSDLogin()" class="w-full border-2 border-[#FF6600] text-[#FF6600] font-medium py-5 rounded-3xl flex items-center justify-center gap-3">
           <i class="fa-solid fa-mobile-screen-button"></i> Login with USSD *123#
         </button>
       </div>
     </div>
 
-    <!-- Security footer -->
     <div class="text-center mt-8 text-xs opacity-60 flex items-center justify-center gap-2">
       <i class="fa-solid fa-shield-halved text-[#008000]"></i>
-      Bank-level security • Data saved offline
+      Bank-level security • Offline ready
     </div>
   </div>
 
-  <!-- Critical Security Banner (demo) -->
   <div id="security-banner" class="hidden fixed top-4 left-4 right-4 bg-[#E63946] text-white rounded-3xl p-5 shadow-2xl flex items-start gap-4">
     <i class="fa-solid fa-triangle-exclamation text-3xl mt-1"></i>
     <div class="flex-1">
-      <p class="font-bold">Suspicious login attempt blocked</p>
-      <p class="text-sm">From unknown device in Lira. Your account is safe.</p>
-      <button onclick="dismissBanner()" 
-        class="mt-4 text-xs underline">Review activity</button>
+      <p class="font-bold">Suspicious login blocked</p>
+      <p class="text-sm">Your account is safe. Review activity?</p>
+      <button onclick="dismissBanner()" class="mt-4 text-xs underline">Review</button>
     </div>
     <button onclick="dismissBanner()" class="text-2xl leading-none">×</button>
   </div>
 
   <script>
     tailwind.config = { theme: { extend: { colors: { primary: '#008000', accent: '#FF6600' } } } };
-
     let isMama = true;
 
     function switchPersona(n) {
@@ -97,46 +94,42 @@
       document.getElementById('btn-mama').classList.toggle('shadow-sm', isMama);
       document.getElementById('btn-joseph').classList.toggle('bg-white', !isMama);
       document.getElementById('btn-joseph').classList.toggle('shadow-sm', !isMama);
-      
-      document.getElementById('login-input').value = isMama 
-        ? "+256 772 933 600" 
-        : "jeff@sacco.co.ug";
+      document.getElementById('login-input').value = isMama ? "+256 772 933 600" : "jeff@sacco.co.ug";
+    }
+
+    function biometricLogin() {
+      if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+      alert("✅ Biometric login successful!\n\n(Real app would use WebAuthn / Android BiometricPrompt)");
+      setTimeout(() => window.location.href = "demo.html", 600);
     }
 
     function performLogin() {
       const pin = document.getElementById('pin-input').value;
       if (pin.length === 4) {
-        // Simulate successful login
-        alert("✅ Login successful!\n\nWelcome back " + (isMama ? "Mama Amina" : "Joseph") + " 👋\n\nRedirecting to chat...");
-        
-        // In real app: window.location = "demo.html";
-        setTimeout(() => {
-          window.location.href = "demo.html";
-        }, 800);
+        alert("✅ Login successful!\nWelcome back " + (isMama ? "Mama Amina" : "Joseph") + " 👋");
+        setTimeout(() => window.location.href = "demo.html", 800);
       } else {
-        alert("Please enter 4-digit PIN");
+        alert("Enter 4-digit PIN");
       }
     }
 
     function showUSSDLogin() {
-      alert("USSD Login:\n\nDial *123*4# on your phone\nEnter your phone number\nFollow the prompts.\n\n(Works on any feature phone)");
+      alert("USSD Login:\nDial *123*4# → Enter phone → Follow prompts");
     }
 
     function dismissBanner() {
       document.getElementById('security-banner').classList.add('hidden');
     }
 
-    // Demo: show security banner randomly
     setTimeout(() => {
-      if (Math.random() > 0.6) {
+      if (Math.random() > 0.7) {
         document.getElementById('security-banner').classList.remove('hidden');
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100, 300]);
+        if (navigator.vibrate) navigator.vibrate([100,50,100,50,100,300]);
       }
-    }, 1800);
+    }, 1500);
 
     window.onload = () => {
       switchPersona(0);
-      console.log('%cSACCO Assistant Login ready – DNA fully respected ✅', 'color:#008000; font-weight:bold');
     };
   </script>
 </body>
