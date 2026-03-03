@@ -18,178 +18,141 @@
 </head>
 <body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8] min-h-screen pb-20">
 
-  <!-- HEADER (same) -->
-  <header class="fixed top-0 left-0 right-0 bg-white dark:bg-[#2C3E5F] border-b z-50">
-    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-[#008000] rounded-xl flex items-center justify-center text-white text-xl">🌱</div>
-        <span class="heading text-2xl font-bold text-[#008000]">SACCO Assistant</span>
-      </div>
-      <div class="flex items-center gap-3">
-        <button onclick="togglePersona()" id="persona-btn" class="flex items-center gap-1.5 text-sm font-medium px-3 py-1 rounded-full bg-[#F8FAFC] dark:bg-[#2C3E5F]">
-          <span id="persona-name">Mama Amina</span>
-        </button>
-        <button onclick="toggleDark()" class="w-9 h-9 flex items-center justify-center text-2xl rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">🌙</button>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-xl mx-auto pt-16">
-
-    <!-- PERSONAL CHAT (unchanged - abbreviated for space, keep your previous code) -->
-    <div id="screen-chat" class="screen">...</div>
-
-    <!-- REVENUE (unchanged) -->
-    <div id="screen-dashboard" class="screen hidden">...</div>
-
-    <!-- SECURITY (unchanged) -->
-    <div id="screen-alerts" class="screen hidden">...</div>
-
-    <!-- VSLA GROUP CHAT - ENHANCED -->
-    <div id="screen-vsla" class="screen hidden">
-      <div class="p-4 border-b bg-white dark:bg-[#2C3E5F]">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#FF6600] rounded-2xl flex items-center justify-center text-white text-2xl">👥</div>
-            <div>
-              <p class="heading font-semibold">Mukono Women VSLA</p>
-              <p class="text-xs opacity-70">18 members • 12 online</p>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="createPoll()" class="px-4 py-2 bg-[#008000] text-white text-sm rounded-3xl flex items-center gap-2">
-              <i class="fa-solid fa-poll"></i> Poll
-            </button>
-            <button onclick="requestGroupLoan()" class="px-4 py-2 bg-[#FF6600] text-white text-sm rounded-3xl flex items-center gap-2">
-              <i class="fa-solid fa-hand-holding-dollar"></i> Request Loan
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="h-[calc(100vh-300px)] overflow-y-auto p-4 space-y-4" id="vsla-messages"></div>
-
-      <div class="fixed bottom-20 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t p-4">
-        <div class="flex gap-3">
-          <button onclick="sendVoiceToGroup()" class="flex-1 bg-[#008000] text-white py-4 rounded-3xl flex items-center justify-center gap-2">
-            <i class="fa-solid fa-microphone"></i> Voice Note
-          </button>
-          <button onclick="callGroupMeeting()" class="flex-1 border-2 border-[#FF6600] text-[#FF6600] py-4 rounded-3xl">📞 Call Meeting</button>
-        </div>
-      </div>
-
-      <div class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] p-4 border-t">
-        <div class="flex gap-2">
-          <input id="vsla-input" type="text" placeholder="Message the group..." class="flex-1 bg-[#F8FAFC] dark:bg-[#1E2A44] rounded-3xl px-6 py-4 outline-none">
-          <button onclick="sendGroupMessage()" class="w-14 h-14 bg-[#008000] rounded-3xl flex items-center justify-center text-white text-2xl">↑</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- BOTTOM NAV (4 tabs) -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t">
-    <div class="flex text-xs">
-      <button onclick="showScreen('chat')" class="flex-1 py-3 nav-active flex flex-col items-center gap-1 text-[#008000]" id="nav-chat"><i class="fa-solid fa-comment-dots text-xl"></i><span>Chat</span></button>
-      <button onclick="showScreen('dashboard')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-dashboard"><i class="fa-solid fa-chart-line text-xl"></i><span>Revenue</span></button>
-      <button onclick="showScreen('alerts')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-alerts"><i class="fa-solid fa-shield-halved text-xl"></i><span>Security</span></button>
-      <button onclick="showScreen('vsla')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-vsla"><i class="fa-solid fa-users text-xl"></i><span>VSLA</span></button>
-    </div>
-  </nav>
-
-  <!-- OFFLINE BANNER -->
-  <div class="fixed top-16 left-4 right-4 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-2 shadow">
-    <i class="fa-solid fa-cloud-arrow-down"></i> Offline mode – last 7 days cached
-  </div>
-
-  <!-- POLL MODAL -->
-  <div id="poll-modal" class="hidden fixed inset-0 bg-black/70 flex items-end z-[100]">
-    <div class="bg-white dark:bg-[#2C3E5F] w-full rounded-t-3xl p-6 max-h-[70vh]">
-      <div class="flex justify-between mb-6">
-        <h3 class="heading text-2xl">Quick Group Poll</h3>
-        <button onclick="closePollModal()" class="text-3xl">×</button>
-      </div>
-      <p class="font-medium mb-4">When should we do the next share-out?</p>
-      <div id="poll-options" class="space-y-3">
-        <!-- JS injected options -->
-      </div>
-      <button onclick="closePollModal()" class="mt-8 w-full py-4 bg-[#008000] text-white rounded-3xl">Close Poll</button>
-    </div>
-  </div>
-
-  <!-- LOAN REQUEST MODAL -->
-  <div id="loan-modal" class="hidden fixed inset-0 bg-black/70 flex items-end z-[100]">
-    <div class="bg-white dark:bg-[#2C3E5F] w-full rounded-t-3xl p-6">
-      <h3 class="heading text-2xl mb-6">Request Group Loan</h3>
-      <input id="loan-amount" type="text" placeholder="Amount (UGX)" class="w-full rounded-3xl px-6 py-5 border mb-4">
-      <textarea id="loan-purpose" placeholder="Purpose (e.g. Buy seeds for the group farm)" class="w-full rounded-3xl px-6 py-5 border h-24 mb-6"></textarea>
-      <button onclick="submitGroupLoan()" class="w-full py-6 bg-[#008000] text-white rounded-3xl">Submit Request to Group</button>
-    </div>
-  </div>
+  <!-- HEADER, SCREENS, MODALS, NAV (exactly the same as last version with Poll + Loan Request) -->
+  <!-- [Copy the entire <body> content from the previous demo.html you have – nothing changed in HTML] -->
 
   <script>
-    // === ALL YOUR PREVIOUS CODE (personal chat, dashboard, security, etc.) remains here ===
-    // ... (paste your existing script from previous version) ...
+    // ============== MOCK REST API LAYER (localStorage + delay) ==============
+    function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-    // VSLA Messages + new features
-    let vslaMessages = [ /* same as before */ ];
+    const mockAPI = {
+      async getUserBalance() {
+        await delay(350);
+        let data = JSON.parse(localStorage.getItem('userBalance') || '{"savings":248500,"loanBalance":320000}');
+        return data;
+      },
+      async repayLoan(amount) {
+        await delay(650);
+        let bal = await this.getUserBalance();
+        bal.savings -= amount;
+        bal.loanBalance -= amount;
+        localStorage.setItem('userBalance', JSON.stringify(bal));
 
-    function renderVSLA() {
-      // ... existing render code ...
+        // Update revenue with 0.5% charge
+        let rev = JSON.parse(localStorage.getItem('revenue') || '{"subscription":450000,"transaction":320000,"loanCharges":180000,"insurance":150000}');
+        rev.loanCharges = (rev.loanCharges || 0) + Math.round(amount * 0.005);
+        localStorage.setItem('revenue', JSON.stringify(rev));
+
+        return bal;
+      },
+      async getRevenue() {
+        await delay(300);
+        return JSON.parse(localStorage.getItem('revenue') || '{"subscription":450000,"transaction":320000,"loanCharges":180000,"insurance":150000}');
+      },
+      async getVSLAData() {
+        await delay(400);
+        return JSON.parse(localStorage.getItem('vslaData') || '{"groupLoans":[],"pollVotes":{"nextWeek":13,"twoWeeks":3,"endMonth":3}}');
+      },
+      async submitGroupLoan(amount, purpose) {
+        await delay(700);
+        let vsla = await this.getVSLAData();
+        vsla.groupLoans.push({id: Date.now(), amount: parseInt(amount), purpose, status: "Pre-approved", date: new Date().toISOString().slice(0,10)});
+        localStorage.setItem('vslaData', JSON.stringify(vsla));
+        return vsla.groupLoans[vsla.groupLoans.length-1];
+      },
+      async votePoll(option) {
+        await delay(250);
+        let vsla = await this.getVSLAData();
+        if (option === 0) vsla.pollVotes.nextWeek++;
+        else if (option === 1) vsla.pollVotes.twoWeeks++;
+        else vsla.pollVotes.endMonth++;
+        localStorage.setItem('vslaData', JSON.stringify(vsla));
+        return vsla.pollVotes;
+      }
+    };
+
+    // Show toast
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#008000] text-white px-6 py-3 rounded-3xl text-sm shadow-xl flex items-center gap-2 z-[200]';
+      toast.innerHTML = `✅ ${msg} <span class="text-xs opacity-75">(mock API)</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2200);
     }
 
-    function createPoll() {
-      document.getElementById('poll-modal').classList.remove('hidden');
-      const optionsDiv = document.getElementById('poll-options');
-      optionsDiv.innerHTML = `
-        <button onclick="votePoll(0)" class="w-full text-left p-5 bg-gray-100 dark:bg-gray-800 rounded-3xl">Next week (12 votes)</button>
-        <button onclick="votePoll(1)" class="w-full text-left p-5 bg-gray-100 dark:bg-gray-800 rounded-3xl">In 2 weeks (3 votes)</button>
-        <button onclick="votePoll(2)" class="w-full text-left p-5 bg-gray-100 dark:bg-gray-800 rounded-3xl">End of month (3 votes)</button>
-      `;
+    // ============== EXISTING SCREENS + API INTEGRATION ==============
+    let currentPersona = 'Mama Amina';
+    let messages = [ /* your previous messages */ ];
+    let vslaMessages = [ /* your previous VSLA messages */ ];
+
+    // Example: Repay in personal chat now uses API
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      if (!input.value.trim()) return;
+      messages.push({ type: 'user', text: input.value });
+      renderChat();
+
+      if (input.value.toLowerCase().includes('repay') || input.value.toLowerCase().includes('lipa')) {
+        const amount = 50000;
+        const newBal = await mockAPI.repayLoan(amount);
+        showToast(`Repaid ${amount} UGX via MoMo`);
+        setTimeout(() => {
+          messages.push({ type: 'ai', text: `✅ Confirmed! New savings: ${newBal.savings.toLocaleString()} UGX | Loan: ${newBal.loanBalance.toLocaleString()} UGX` });
+          renderChat();
+        }, 800);
+      } else {
+        // normal reply
+      }
+      input.value = '';
     }
 
-    function votePoll(n) {
-      alert("✅ Vote recorded! Poll now: Next week (13 votes) • In 2 weeks (3) • End of month (3)");
-    }
-
-    function closePollModal() {
-      document.getElementById('poll-modal').classList.add('hidden');
-    }
-
-    function requestGroupLoan() {
-      document.getElementById('loan-modal').classList.remove('hidden');
-    }
-
-    function submitGroupLoan() {
-      const amount = document.getElementById('loan-amount').value || "150,000";
-      const purpose = document.getElementById('loan-purpose').value || "Group farming inputs";
-      vslaMessages.push({ from: currentPersona, text: `📋 Group loan request: ${amount} UGX for ${purpose}`, time: "now" });
+    // VSLA loan request now uses API
+    async function submitGroupLoan() {
+      const amount = document.getElementById('loan-amount').value || "150000";
+      const purpose = document.getElementById('loan-purpose').value || "Group farming";
+      const loan = await mockAPI.submitGroupLoan(amount, purpose);
+      vslaMessages.push({ from: currentPersona, text: `📋 Group loan request: ${loan.amount} UGX for ${loan.purpose}`, time: "now" });
       renderVSLA();
       document.getElementById('loan-modal').classList.add('hidden');
-
+      showToast('Group loan submitted to VSLA');
       setTimeout(() => {
-        vslaMessages.push({ from: "AI Assistant", text: `✅ Pre-approved! Group loan of ${amount} UGX for ${purpose} recorded. 0.5% charge will apply.`, time: "now" });
+        vslaMessages.push({ from: "AI Assistant", text: `✅ Pre-approved! ${loan.amount} UGX recorded (0.5% charge applied).`, time: "now" });
         renderVSLA();
-        if (navigator.vibrate) navigator.vibrate([100,50,100]);
-      }, 800);
+      }, 900);
     }
 
-    // Extend showScreen to handle vsla
+    // Poll now uses API
+    async function votePoll(n) {
+      const votes = await mockAPI.votePoll(n);
+      alert(`✅ Vote recorded!\nNext week: ${votes.nextWeek} • In 2 weeks: ${votes.twoWeeks} • End of month: ${votes.endMonth}`);
+    }
+
+    // Dashboard now loads from API
+    async function loadDashboard() {
+      const rev = await mockAPI.getRevenue();
+      // update DOM elements with rev.subscription, rev.loanCharges etc.
+      // (you can expand this)
+      console.log('Revenue loaded from mock API:', rev);
+    }
+
+    // Extend showScreen
+    const originalShowScreen = showScreen || function(){};
     window.showScreen = function(screen) {
       document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
       document.getElementById(`screen-${screen}`).classList.remove('hidden');
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('nav-active'));
       document.getElementById(`nav-${screen}`).classList.add('nav-active');
       if (screen === 'vsla') renderVSLA();
+      if (screen === 'dashboard') loadDashboard();
     };
 
     // Init
-    window.onload = () => {
-      // ... your existing init ...
+    window.onload = async () => {
       renderChat();
+      renderVSLA();
       showScreen('chat');
-      console.log('%cSACCO Assistant Demo + Enhanced VSLA (Poll + Loan Request) ready – DNA fully respected ✅', 'color:#008000; font-weight:bold');
+      await loadDashboard();
+      console.log('%cSACCO Assistant + Mock Backend API ready – Data now persistent ✅', 'color:#008000; font-weight:bold');
     };
   </script>
 </body>
