@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SACCO Assistant - Live Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .heading { font-family: 'Poppins', sans-serif; }
+    .chat-bubble-ai { background: #008000; color: white; }
+    .chat-bubble-user { background: #FF6600; color: white; }
+    .nav-active { border-top: 3px solid #008000; }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8] min-h-screen pb-20">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 bg-white dark:bg-[#2C3E5F] border-b border-gray-200 dark:border-gray-700 z-50">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-[#008000] rounded-xl flex items-center justify-center text-white text-xl">🌱</div>
+        <div>
+          <span class="heading text-2xl font-bold text-[#008000]">SACCO Assistant</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="togglePersona()" id="persona-btn"
+          class="flex items-center gap-1.5 text-sm font-medium px-3 py-1 rounded-full bg-[#F8FAFC] dark:bg-[#2C3E5F]">
+          <span id="persona-name">Mama Amina</span>
+        </button>
+        <button onclick="toggleDark()" 
+          class="w-9 h-9 flex items-center justify-center text-2xl rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-xl mx-auto pt-16" id="app">
+
+    <!-- CHAT SCREEN -->
+    <div id="screen-chat" class="screen">
+      <div class="h-[calc(100vh-180px)] overflow-y-auto p-4 space-y-4" id="chat-messages">
+        <!-- JS injected -->
+      </div>
+      <div class="fixed bottom-20 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t p-4">
+        <div class="flex gap-2">
+          <button onclick="simulateVoice()" 
+            class="flex-1 bg-[#008000] text-white py-4 rounded-3xl flex items-center justify-center gap-2 text-lg">
+            <i class="fa-solid fa-microphone"></i> Voice (English/Swahili)
+          </button>
+          <button onclick="showUSSD()" 
+            class="flex-1 bg-[#FF6600] text-white py-4 rounded-3xl flex items-center justify-center gap-2 text-lg">
+            <i class="fa-solid fa-mobile-screen-button"></i> USSD
+          </button>
+        </div>
+      </div>
+      <div class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] p-4 border-t">
+        <div class="flex gap-2">
+          <input id="chat-input" type="text" placeholder="Ask anything... (e.g. repay 50k loan)" 
+            class="flex-1 bg-[#F8FAFC] dark:bg-[#1E2A44] rounded-3xl px-6 py-4 outline-none text-base">
+          <button onclick="sendMessage()" 
+            class="w-14 h-14 bg-[#008000] rounded-3xl flex items-center justify-center text-white text-2xl">↑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVENUE DASHBOARD -->
+    <div id="screen-dashboard" class="screen hidden p-4 pt-6">
+      <h1 class="heading text-3xl font-bold mb-6">Revenue & Sustainability</h1>
+      <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-6 mb-6">
+        <div class="flex justify-between items-end mb-4">
+          <div>
+            <p class="text-sm opacity-70">This month total</p>
+            <p class="text-4xl font-semibold text-[#008000]">1,250,000 UGX</p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-emerald-600">+12% from last month</p>
+          </div>
+        </div>
+        <div class="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div class="h-full w-[78%] bg-[#008000]"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
+          <p class="text-sm opacity-70">Subscription fees</p>
+          <p class="text-2xl font-semibold">450,000 UGX</p>
+        </div>
+        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
+          <p class="text-sm opacity-70">Transaction fees</p>
+          <p class="text-2xl font-semibold">320,000 UGX</p>
+        </div>
+        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
+          <p class="text-sm opacity-70">0.5% Loan charges</p>
+          <p class="text-2xl font-semibold">180,000 UGX</p>
+        </div>
+        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
+          <p class="text-sm opacity-70">2% Insurance commission</p>
+          <p class="text-2xl font-semibold">150,000 UGX</p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-6">
+        <p class="font-medium mb-4">3-month projection</p>
+        <div class="flex gap-2 items-end h-40">
+          <div class="flex-1 bg-[#008000]/20 rounded-t h-[60%]"></div>
+          <div class="flex-1 bg-[#008000]/30 rounded-t h-[75%]"></div>
+          <div class="flex-1 bg-[#008000] rounded-t h-[95%]"></div>
+        </div>
+        <p class="text-center text-sm mt-2 text-emerald-600">Expected growth +18%</p>
+      </div>
+
+      <div class="mt-8 text-sm opacity-70">
+        Recommendation: Send USSD reminder to 12 overdue members (recover ~95k UGX)
+      </div>
+    </div>
+
+    <!-- SECURITY ALERTS -->
+    <div id="screen-alerts" class="screen hidden p-4 pt-6">
+      <h1 class="heading text-3xl font-bold mb-8">Security Alerts</h1>
+      <button onclick="triggerCriticalAlert()" 
+        class="w-full bg-[#E63946] text-white py-6 rounded-3xl text-lg font-medium mb-4">
+        🔥 Trigger Critical Security Alert
+      </button>
+      <button onclick="triggerWarningAlert()" 
+        class="w-full bg-[#FF6600] text-white py-6 rounded-3xl text-lg font-medium">
+        ⚠️ Trigger Warning Alert
+      </button>
+      <div class="mt-12 text-center text-sm opacity-70">
+        (In real app these appear as full-screen banners with vibration)
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t border-gray-200 dark:border-gray-700">
+    <div class="flex text-xs">
+      <button onclick="showScreen('chat')" class="flex-1 py-3 nav-active flex flex-col items-center gap-1 text-[#008000]" id="nav-chat">
+        <i class="fa-solid fa-comment-dots text-xl"></i>
+        <span>Chat</span>
+      </button>
+      <button onclick="showScreen('dashboard')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-dashboard">
+        <i class="fa-solid fa-chart-line text-xl"></i>
+        <span>Revenue</span>
+      </button>
+      <button onclick="showScreen('alerts')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-alerts">
+        <i class="fa-solid fa-shield-halved text-xl"></i>
+        <span>Security</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- USSD MODAL -->
+  <div id="ussd-modal" class="hidden fixed inset-0 bg-black/70 flex items-end z-[100]">
+    <div class="bg-white dark:bg-[#2C3E5F] w-full rounded-t-3xl p-6 max-h-[70vh] overflow-auto">
+      <div class="flex justify-between mb-6">
+        <h3 class="heading text-2xl">USSD *123#</h3>
+        <button onclick="hideUSSD()" class="text-3xl leading-none">×</button>
+      </div>
+      <div class="space-y-3 text-lg">
+        <button onclick="ussdReply('1')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">1. Check balance</button>
+        <button onclick="ussdReply('2')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">2. Repay loan</button>
+        <button onclick="ussdReply('3')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">3. My loans</button>
+      </div>
+      <div id="ussd-response" class="mt-6 min-h-[60px]"></div>
+    </div>
+  </div>
+
+  <!-- OFFLINE BANNER -->
+  <div class="fixed top-16 left-4 right-4 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-2 shadow">
+    <i class="fa-solid fa-cloud-arrow-down"></i>
+    Offline mode – last 7 days cached
+  </div>
+
+  <script>
+    tailwind.config = {
+      content: [],
+      theme: {
+        extend: {
+          colors: {
+            primary: '#008000',
+            accent: '#FF6600',
+            danger: '#E63946'
+          }
+        }
+      }
+    }
+
+    let currentPersona = 'Mama Amina';
+    let messages = [
+      { type: 'ai', text: 'Good morning Mama Amina 👋 Your savings balance is 248,500 UGX. Habari ya asubuhi?' },
+      { type: 'user', text: 'I want to repay 50,000 UGX on my loan' }
+    ];
+
+    function renderChat() {
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `max-w-[80%] ${msg.type === 'ai' ? 'chat-bubble-ai ml-auto rounded-3xl rounded-tr-none px-5 py-3' : 'chat-bubble-user mr-auto rounded-3xl rounded-tl-none px-5 py-3'}`;
+        div.textContent = msg.text;
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      if (!input.value.trim()) return;
+      messages.push({ type: 'user', text: input.value });
+      renderChat();
+      
+      const reply = input.value.toLowerCase().includes('repay') || input.value.toLowerCase().includes('lipa') 
+        ? `✅ Confirmed! You have repaid 50,000 UGX via MTN MoMo. Your new loan balance is 320,000 UGX. Voice confirmation sent. Asante sana!`
+        : `Got it. Your request is being processed...`;
+      
+      setTimeout(() => {
+        messages.push({ type: 'ai', text: reply });
+        renderChat();
+      }, 800);
+      
+      input.value = '';
+    }
+
+    function simulateVoice() {
+      const text = currentPersona === 'Mama Amina' 
+        ? "Ndagenda okusubiza 50,000 UGX ku loan yange." 
+        : "I want to repay 50,000 UGX on my loan";
+      messages.push({ type: 'user', text: `🎤 Voice: ${text}` });
+      renderChat();
+      
+      setTimeout(() => {
+        messages.push({ type: 'ai', text: `✅ Voice confirmed! Repayment of 50,000 UGX successful. Salio lako sasa ni 320,000 UGX.` });
+        renderChat();
+      }, 1200);
+    }
+
+    function showUSSD() {
+      document.getElementById('ussd-modal').classList.remove('hidden');
+      document.getElementById('ussd-response').innerHTML = '';
+    }
+
+    function hideUSSD() {
+      document.getElementById('ussd-modal').classList.add('hidden');
+    }
+
+    function ussdReply(choice) {
+      const resp = document.getElementById('ussd-response');
+      if (choice === '1') resp.innerHTML = `<div class="p-4 bg-green-100 dark:bg-green-900 rounded-2xl">Your balance: 248,500 UGX ✅</div>`;
+      if (choice === '2') resp.innerHTML = `<div class="p-4 bg-green-100 dark:bg-green-900 rounded-2xl">Enter amount to repay → Voice confirmation coming...</div>`;
+    }
+
+    function triggerCriticalAlert() {
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100, 300]);
+      alert("🔴 SECURITY ALERT\n\nSuspicious login attempt from Kampala blocked.\n\nYour account is safe.\nTap to review.");
+    }
+
+    function triggerWarningAlert() {
+      alert("⚠️ WARNING\n\nOne of your members has an overdue loan of 95,000 UGX.\n\nRecommendation: Send USSD reminder now.");
+    }
+
+    function toggleDark() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function togglePersona() {
+      currentPersona = currentPersona === 'Mama Amina' ? 'Joseph (Manager)' : 'Mama Amina';
+      document.getElementById('persona-name').textContent = currentPersona;
+      if (messages.length < 3) {
+        messages[0].text = currentPersona === 'Joseph (Manager)' 
+          ? 'Hello Joseph, today’s revenue is 1,250,000 UGX. Portfolio at risk: 8%.'
+          : 'Good morning Mama Amina 👋 Your savings balance is 248,500 UGX. Habari ya asubuhi?';
+        renderChat();
+      }
+    }
+
+    function showScreen(screen) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`screen-${screen}`).classList.remove('hidden');
+      
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('nav-active'));
+      document.getElementById(`nav-${screen}`).classList.add('nav-active');
+    }
+
+    window.onload = () => {
+      renderChat();
+      showScreen('chat');
+      console.log('%cSACCO Assistant Demo ready – DNA fully respected ✅', 'color:#008000; font-weight:bold');
+    }
+  </script>
+</body>
+</html>
