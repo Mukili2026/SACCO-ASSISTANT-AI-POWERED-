@@ -2,302 +2,194 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SACCO Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SACCO Assistant — AI for SACCOs & VSLAs in Africa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
     .heading { font-family: 'Poppins', sans-serif; }
-    .chat-bubble-ai { background: #008000; color: white; }
-    .chat-bubble-user { background: #FF6600; color: white; }
-    .nav-active { border-top: 3px solid #008000; }
+    .hero-bg { background: linear-gradient(135deg, #008000 0%, #1E2A44 100%); }
   </style>
 </head>
-<body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8] min-h-screen pb-20">
+<body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8]">
 
-  <!-- HEADER -->
-  <header class="fixed top-0 left-0 right-0 bg-white dark:bg-[#2C3E5F] border-b border-gray-200 dark:border-gray-700 z-50">
-    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-[#008000] rounded-xl flex items-center justify-center text-white text-xl">🌱</div>
-        <div>
-          <span class="heading text-2xl font-bold text-[#008000]">SACCO Assistant</span>
-        </div>
-      </div>
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-[#2C3E5F] border-b border-gray-200 dark:border-gray-700 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <button onclick="togglePersona()" id="persona-btn"
-          class="flex items-center gap-1.5 text-sm font-medium px-3 py-1 rounded-full bg-[#F8FAFC] dark:bg-[#2C3E5F]">
-          <span id="persona-name">Mama Amina</span>
-        </button>
-        <button onclick="toggleDark()" 
-          class="w-9 h-9 flex items-center justify-center text-2xl rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
-          🌙
-        </button>
+        <div class="w-9 h-9 bg-[#008000] rounded-2xl flex items-center justify-center text-white text-2xl">🌱</div>
+        <span class="heading text-3xl font-bold text-[#008000]">SACCO Assistant</span>
       </div>
-    </div>
-  </header>
-
-  <div class="max-w-xl mx-auto pt-16" id="app">
-
-    <!-- CHAT SCREEN -->
-    <div id="screen-chat" class="screen">
-      <div class="h-[calc(100vh-180px)] overflow-y-auto p-4 space-y-4" id="chat-messages">
-        <!-- JS injected messages -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#" class="hover:text-[#008000]">For Members</a>
+        <a href="#" class="hover:text-[#008000]">For Managers</a>
+        <a href="#" class="hover:text-[#008000]">VSLAs & Groups</a>
+        <a href="#" class="hover:text-[#008000]">Features</a>
+        <a href="#" class="hover:text-[#008000]">Pricing</a>
       </div>
-      <div class="fixed bottom-20 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t p-4">
-        <div class="flex gap-2">
-          <button onclick="simulateVoice()" 
-            class="flex-1 bg-[#008000] text-white py-4 rounded-3xl flex items-center justify-center gap-2 text-lg">
-            <i class="fa-solid fa-microphone"></i> Voice (Luganda/Swahili)
-          </button>
-          <button onclick="showUSSD()" 
-            class="flex-1 bg-[#FF6600] text-white py-4 rounded-3xl flex items-center justify-center gap-2 text-lg">
-            <i class="fa-solid fa-mobile-screen-button"></i> USSD
-          </button>
-        </div>
+      <div class="flex items-center gap-4">
+        <button onclick="toggleDark()" class="px-4 py-2 text-xl">🌙</button>
+        <a href="demo.html" target="_blank"
+          class="px-6 py-3 text-sm font-semibold border-2 border-[#008000] text-[#008000] dark:text-white rounded-3xl hover:bg-[#008000] hover:text-white transition">
+          Try Live Demo
+        </a>
+        <button onclick="scrollToCTA()" 
+          class="px-8 py-3 bg-[#008000] hover:bg-[#006600] text-white font-semibold rounded-3xl transition">Get Started Free</button>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] p-4 border-t">
-        <div class="flex gap-2">
-          <input id="chat-input" type="text" placeholder="Ask anything... (e.g. repay loan)" 
-            class="flex-1 bg-[#F8FAFC] dark:bg-[#1E2A44] rounded-3xl px-6 py-4 outline-none text-base">
-          <button onclick="sendMessage()" 
-            class="w-14 h-14 bg-[#008000] rounded-3xl flex items-center justify-center text-white text-2xl">↑</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- REVENUE DASHBOARD SCREEN -->
-    <div id="screen-dashboard" class="screen hidden p-4 pt-6">
-      <h1 class="heading text-3xl font-bold mb-6">Revenue & Sustainability</h1>
-      <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-6 mb-6">
-        <div class="flex justify-between items-end mb-4">
-          <div>
-            <p class="text-sm opacity-70">This month total</p>
-            <p class="text-4xl font-semibold text-[#008000]">1,250,000 UGX</p>
-          </div>
-          <div class="text-right">
-            <p class="text-sm text-emerald-600">+12% from last month</p>
-          </div>
-        </div>
-        <div class="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-          <div class="h-full w-[78%] bg-[#008000]"></div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
-          <p class="text-sm opacity-70">Subscription fees</p>
-          <p class="text-2xl font-semibold">450,000 UGX</p>
-        </div>
-        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
-          <p class="text-sm opacity-70">Transaction fees</p>
-          <p class="text-2xl font-semibold">320,000 UGX</p>
-        </div>
-        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
-          <p class="text-sm opacity-70">0.5% Loan charges</p>
-          <p class="text-2xl font-semibold">180,000 UGX</p>
-        </div>
-        <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-5">
-          <p class="text-sm opacity-70">2% Insurance commission</p>
-          <p class="text-2xl font-semibold">150,000 UGX</p>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-[#2C3E5F] rounded-3xl p-6">
-        <p class="font-medium mb-4">3-month projection</p>
-        <div class="flex gap-2 items-end h-40">
-          <div class="flex-1 bg-[#008000]/20 rounded-t h-[60%]"></div>
-          <div class="flex-1 bg-[#008000]/30 rounded-t h-[75%]"></div>
-          <div class="flex-1 bg-[#008000] rounded-t h-[95%]"></div>
-        </div>
-        <p class="text-center text-sm mt-2 text-emerald-600">Expected growth +18%</p>
-      </div>
-
-      <div class="mt-8 text-sm opacity-70">
-        Recommendation: Send USSD reminder to 12 overdue members (recover ~95k UGX)
-      </div>
-    </div>
-
-    <!-- SECURITY ALERTS DEMO SCREEN -->
-    <div id="screen-alerts" class="screen hidden p-4 pt-6">
-      <h1 class="heading text-3xl font-bold mb-8">Security Alerts</h1>
-      <button onclick="triggerCriticalAlert()" 
-        class="w-full bg-[#E63946] text-white py-6 rounded-3xl text-lg font-medium mb-4">
-        🔥 Trigger Critical Security Alert
-      </button>
-      <button onclick="triggerWarningAlert()" 
-        class="w-full bg-[#FF6600] text-white py-6 rounded-3xl text-lg font-medium">
-        ⚠️ Trigger Warning Alert
-      </button>
-      <div class="mt-12 text-center text-sm opacity-70">
-        (Alerts appear as full-screen banners in real app)
-      </div>
-    </div>
-
-  </div>
-
-  <!-- BOTTOM NAV -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white dark:bg-[#2C3E5F] border-t border-gray-200 dark:border-gray-700">
-    <div class="flex text-xs">
-      <button onclick="showScreen('chat')" class="flex-1 py-3 nav-active flex flex-col items-center gap-1 text-[#008000]" id="nav-chat">
-        <i class="fa-solid fa-comment-dots text-xl"></i>
-        <span>Chat</span>
-      </button>
-      <button onclick="showScreen('dashboard')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-dashboard">
-        <i class="fa-solid fa-chart-line text-xl"></i>
-        <span>Revenue</span>
-      </button>
-      <button onclick="showScreen('alerts')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-alerts">
-        <i class="fa-solid fa-shield-halved text-xl"></i>
-        <span>Security</span>
-      </button>
     </div>
   </nav>
 
-  <!-- USSD MODAL -->
-  <div id="ussd-modal" class="hidden fixed inset-0 bg-black/70 flex items-end z-[100]">
-    <div class="bg-white dark:bg-[#2C3E5F] w-full rounded-t-3xl p-6 max-h-[70vh] overflow-auto">
-      <div class="flex justify-between mb-6">
-        <h3 class="heading text-2xl">USSD *123#</h3>
-        <button onclick="hideUSSD()" class="text-3xl leading-none">×</button>
+  <!-- HERO -->
+  <section class="hero-bg pt-32 pb-20 text-white">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl text-sm mb-6">
+        <span class="bg-[#FF6600] text-white px-3 py-1 rounded-2xl text-xs font-bold">NEW</span>
+        Now with Swahili + Voice + USSD
       </div>
-      <div class="space-y-3 text-lg">
-        <button onclick="ussdReply('1')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">1. Check balance</button>
-        <button onclick="ussdReply('2')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">2. Repay loan</button>
-        <button onclick="ussdReply('3')" class="w-full text-left p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">3. My loans</button>
+      <h1 class="heading text-6xl md:text-7xl font-bold leading-tight max-w-4xl mx-auto">
+        Your SACCO or VSLA,<br>smarter, safer,<br><span class="text-[#FF6600]">instantly</span>.
+      </h1>
+      <p class="mt-6 text-xl max-w-2xl mx-auto opacity-90">
+        The friendly AI assistant that turns paperwork into chat, voice or *123# USSD.<br>
+        Perfect for rural members, busy managers, and growing savings groups across Africa.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+        <button onclick="scrollToCTA()" 
+          class="px-10 py-5 bg-white text-[#008000] font-semibold text-lg rounded-3xl hover:scale-105 transition flex items-center justify-center gap-3">
+          <i class="fa-solid fa-rocket"></i> Start Free for your SACCO
+        </button>
+        <button onclick="window.open('demo.html','_blank')" 
+          class="px-10 py-5 border-2 border-white font-semibold text-lg rounded-3xl hover:bg-white/10 transition">
+          Watch 45-second demo →
+        </button>
       </div>
-      <div id="ussd-response" class="mt-6 min-h-[60px]"></div>
+      <div class="mt-12 flex items-center justify-center gap-8 text-sm opacity-75">
+        <div>✅ MTN MoMo • Airtel Money</div>
+        <div>✅ Works on feature phones</div>
+        <div>✅ 100% data-light</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="py-6 bg-white dark:bg-[#2C3E5F] border-b">
+    <div class="max-w-5xl mx-auto px-6 flex flex-wrap justify-center items-center gap-x-12 gap-y-4 text-sm opacity-70">
+      <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-[#008000]"></i> Bank-level security</div>
+      <div>Used by 40+ SACCOs & VSLAs</div>
+      <div>Uganda • Kenya • Tanzania</div>
+      <div class="text-[#FF6600] font-medium">0.5% loan fee • 2% insurance commission</div>
     </div>
   </div>
 
-  <!-- OFFLINE BANNER -->
-  <div class="fixed top-16 left-4 right-4 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs px-4 py-2 rounded-2xl flex items-center gap-2 shadow">
-    <i class="fa-solid fa-cloud-arrow-down"></i>
-    Offline mode – last 7 days cached
-  </div>
+  <!-- FEATURES -->
+  <section class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="heading text-4xl font-bold text-center mb-16">Built for real African SACCOs & VSLAs</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white dark:bg-[#2C3E5F] p-8 rounded-3xl">
+        <div class="w-12 h-12 bg-[#008000]/10 rounded-2xl flex items-center justify-center text-3xl mb-6">💬</div>
+        <h3 class="heading text-2xl font-semibold mb-3">Chat & Voice in English + Swahili</h3>
+        <p class="opacity-80">Mama Amina says “Ndagenda okusubiza loan” and gets instant voice confirmation.</p>
+      </div>
+      <div class="bg-white dark:bg-[#2C3E5F] p-8 rounded-3xl">
+        <div class="w-12 h-12 bg-[#FF6600]/10 rounded-2xl flex items-center justify-center text-3xl mb-6">📱</div>
+        <h3 class="heading text-2xl font-semibold mb-3">USSD for feature phones</h3>
+        <p class="opacity-80">No smartphone? No internet? Just dial *123# and manage everything.</p>
+      </div>
+      <div class="bg-white dark:bg-[#2C3E5F] p-8 rounded-3xl">
+        <div class="w-12 h-12 bg-[#008000]/10 rounded-2xl flex items-center justify-center text-3xl mb-6">📊</div>
+        <h3 class="heading text-2xl font-semibold mb-3">Revenue Dashboard</h3>
+        <p class="opacity-80">See subscription fees, transaction fees, 0.5% loan charges & 2% insurance instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="bg-[#1E2A44] text-white py-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <div class="max-w-md mx-auto">
+        <div class="inline-flex items-center gap-3 bg-white/10 px-6 py-3 rounded-3xl mb-8">
+          <i class="fa-solid fa-shield-halved text-3xl text-[#E63946]"></i>
+          <span class="font-semibold">Your money is safe with us</span>
+        </div>
+        <h2 class="heading text-5xl font-bold mb-6">Security alerts that protect, not panic</h2>
+        <p class="text-xl opacity-90">Instant red-banner alerts with vibration (3 short + 1 long) when anything suspicious happens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="final-cta" class="max-w-5xl mx-auto px-6 py-24 text-center">
+    <div class="bg-gradient-to-br from-[#008000] to-[#1E2A44] rounded-3xl p-16 text-white">
+      <h2 class="heading text-5xl font-bold mb-6">Ready to grow your SACCO or VSLA?</h2>
+      <p class="text-2xl max-w-xl mx-auto opacity-90 mb-10">Join hundreds of cooperatives already saving time and increasing revenue every day.</p>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <button onclick="alert('🎉 Welcome! Your free SACCO Assistant account is being created... (live demo)')" 
+          class="px-12 py-6 bg-white text-[#008000] font-semibold text-xl rounded-3xl hover:scale-105 transition">
+          Start Free 30-Day Trial
+        </button>
+        <button onclick="window.open('demo.html','_blank')" 
+          class="px-12 py-6 border-2 border-white font-semibold text-xl rounded-3xl hover:bg-white/10 transition">
+          Book a 15-min demo
+        </button>
+      </div>
+      <p class="mt-8 text-sm opacity-75">No credit card • Cancel anytime • Works on any phone in Uganda, Kenya, Tanzania & beyond</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#1E2A44] text-white/70 py-20">
+    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+      <div>
+        <div class="flex items-center gap-3 text-white mb-6">
+          <div class="w-9 h-9 bg-[#008000] rounded-2xl flex items-center justify-center text-2xl">🌱</div>
+          <span class="heading text-3xl font-bold">SACCO Assistant</span>
+        </div>
+        <p class="text-sm">AI that speaks your language.<br>Made with ❤️ for African cooperatives.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Product</h4>
+        <div class="space-y-2 text-sm">
+          <p>Chat & Voice</p>
+          <p>USSD Mode</p>
+          <p>Revenue Tools</p>
+          <p>Security Alerts</p>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Company</h4>
+        <div class="space-y-2 text-sm">
+          <p>For SACCOs</p>
+          <p>For VSLAs</p>
+          <p>Pricing</p>
+          <p>Blog</p>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white mb-4">Get in touch</h4>
+        <p class="text-sm">Kampala, Uganda</p>
+        <p class="text-sm mt-2">hello@saccoassistant.com</p>
+        <div class="flex gap-4 mt-6 text-2xl">
+          <i class="fa-brands fa-whatsapp"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-xs mt-20 opacity-50">© 2026 SACCO Assistant • All rights reserved • Built for Africa</div>
+  </footer>
 
   <script>
-    // Tailwind custom colours
-    tailwind.config = {
-      content: [],
-      theme: {
-        extend: {
-          colors: {
-            primary: '#008000',
-            accent: '#FF6600',
-            danger: '#E63946'
-          }
-        }
-      }
-    }
-
-    let currentPersona = 'Mama Amina';
-    let messages = [
-      { type: 'ai', text: 'Good morning Mama Amina 👋 Your savings balance is 248,500 UGX. Habari ya asubuhi?' },
-      { type: 'user', text: 'I want to repay 50,000 UGX on my loan' }
-    ];
-
-    function renderChat() {
-      const container = document.getElementById('chat-messages');
-      container.innerHTML = '';
-      messages.forEach(msg => {
-        const div = document.createElement('div');
-        div.className = `max-w-[80%] ${msg.type === 'ai' ? 'chat-bubble-ai ml-auto rounded-3xl rounded-tr-none px-5 py-3' : 'chat-bubble-user mr-auto rounded-3xl rounded-tl-none px-5 py-3'}`;
-        div.textContent = msg.text;
-        container.appendChild(div);
-      });
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function sendMessage() {
-      const input = document.getElementById('chat-input');
-      if (!input.value.trim()) return;
-      messages.push({ type: 'user', text: input.value });
-      renderChat();
-      
-      const reply = input.value.toLowerCase().includes('repay') || input.value.toLowerCase().includes('lipa') 
-        ? `✅ Confirmed! You have repaid 50,000 UGX via MTN MoMo. Your new loan balance is 320,000 UGX. Voice confirmation sent. Asante sana!`
-        : `Got it. Your request is being processed...`;
-      
-      setTimeout(() => {
-        messages.push({ type: 'ai', text: reply });
-        renderChat();
-      }, 800);
-      
-      input.value = '';
-    }
-
-    function simulateVoice() {
-      const text = currentPersona === 'Mama Amina' 
-        ? "Ndagenda okusubiza 50,000 UGX ku loan yange." 
-        : "I want to repay 50,000 UGX on my loan";
-      messages.push({ type: 'user', text: `🎤 Voice: ${text}` });
-      renderChat();
-      
-      setTimeout(() => {
-        messages.push({ type: 'ai', text: `✅ Voice confirmed! Repayment of 50,000 UGX successful. Salio lako sasa ni 320,000 UGX.` });
-        renderChat();
-      }, 1200);
-    }
-
-    function showUSSD() {
-      document.getElementById('ussd-modal').classList.remove('hidden');
-      document.getElementById('ussd-response').innerHTML = '';
-    }
-
-    function hideUSSD() {
-      document.getElementById('ussd-modal').classList.add('hidden');
-    }
-
-    function ussdReply(choice) {
-      const resp = document.getElementById('ussd-response');
-      if (choice === '1') resp.innerHTML = `<div class="p-4 bg-green-100 dark:bg-green-900 rounded-2xl">Your balance: 248,500 UGX ✅</div>`;
-      if (choice === '2') resp.innerHTML = `<div class="p-4 bg-green-100 dark:bg-green-900 rounded-2xl">Enter amount to repay → Voice or SMS confirmation coming...</div>`;
-    }
-
-    function triggerCriticalAlert() {
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100, 300]);
-      alert("🔴 SECURITY ALERT\n\nSuspicious login attempt from Kampala blocked.\n\nYour account is safe.\nTap to review (in real app this would be a full-screen banner).");
-    }
-
-    function triggerWarningAlert() {
-      alert("⚠️ WARNING\n\nOne of your members has an overdue loan of 95,000 UGX.\n\nRecommendation: Send USSD reminder now.");
-    }
-
     function toggleDark() {
       document.documentElement.classList.toggle('dark');
     }
-
-    function togglePersona() {
-      currentPersona = currentPersona === 'Mama Amina' ? 'Joseph (Manager)' : 'Mama Amina';
-      document.getElementById('persona-name').textContent = currentPersona;
-      // Demo different greeting
-      if (messages.length < 3) {
-        messages[0].text = currentPersona === 'Joseph (Manager)' 
-          ? 'Hello Joseph, today’s revenue is 1,250,000 UGX. Portfolio at risk: 8%.'
-          : 'Good morning Mama Amina 👋 Your savings balance is 248,500 UGX. Habari ya asubuhi?';
-        renderChat();
-      }
+    function scrollToCTA() {
+      document.getElementById('final-cta').scrollIntoView({ behavior: 'smooth' });
     }
-
-    function showScreen(screen) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-      document.getElementById(`screen-${screen}`).classList.remove('hidden');
-      
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('nav-active'));
-      document.getElementById(`nav-${screen}`).classList.add('nav-active');
-    }
-
-    // Init
-    window.onload = () => {
-      renderChat();
-      showScreen('chat');
-      
-      // Fake offline cache note stays visible
-      console.log('%cSACCO Assistant PWA ready – DNA fully respected ✅', 'color:#008000; font-weight:bold');
-    }
+    tailwind.config = {
+      content: [],
+      theme: { extend: { colors: { primary: '#008000', accent: '#FF6600' } } }
+    };
   </script>
 </body>
 </html>
