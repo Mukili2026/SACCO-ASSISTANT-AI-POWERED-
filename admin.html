@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Dashboard • SACCO Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .heading { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#1E2A44]">
+
+  <div class="max-w-4xl mx-auto p-6">
+    <div class="flex items-center justify-between mb-10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-[#00A651] rounded-2xl flex items-center justify-center text-white text-3xl">🌱</div>
+        <div>
+          <span class="heading text-3xl font-bold text-[#00A651]">SACCO Assistant</span>
+          <p class="text-sm opacity-70">Founder Dashboard — Geoffrey Obia</p>
+        </div>
+      </div>
+      <button onclick="window.location.href='demo.html'" class="px-6 py-3 border border-[#00A651] text-[#00A651] rounded-3xl">← Back to App</button>
+    </div>
+
+    <!-- Professional Revenue Cards + Charts -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Total Revenue Card -->
+      <div class="bg-white rounded-3xl p-8 shadow">
+        <p class="opacity-70">Total Revenue This Month</p>
+        <p class="text-5xl font-bold text-[#00A651] mt-2" id="total-revenue">3,284,750 UGX</p>
+      </div>
+      <!-- Other cards for YTD, Active SACCOs, Delinquency -->
+    </div>
+
+    <!-- Paystack Test Button -->
+    <button onclick="payWithPaystack(49000)" 
+      class="mt-8 w-full bg-[#00A651] text-white py-6 rounded-3xl font-semibold text-lg">
+      💳 Test Real Payment (UGX 49,000) — Paystack
+    </button>
+  </div>
+
+  <script>
+    function payWithPaystack(amount) {
+      const handler = PaystackPop.setup({
+        key: 'pk_test_8f1e9f0e3d5a2b7c4d6e8f9a0b1c2d3e4f5a6b7c', // Replace with your LIVE key when ready
+        email: 'geoffrey@saccoassistant.com',
+        amount: amount * 100,
+        currency: 'UGX',
+        ref: 'FOUNDER_' + Date.now(),
+        callback: response => alert('✅ Payment successful!\nReference: ' + response.reference)
+      });
+      handler.openIframe();
+    }
+  </script>
+</body>
+</html>
