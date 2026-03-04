@@ -196,3 +196,28 @@
   </script>
 </body>
 </html>
+<!-- ... (all your existing screens) ... -->
+
+<!-- In the Admin Dashboard section, add this button -->
+<button onclick="payWithPaystack(49000)" 
+  class="w-full bg-[#00A651] text-white py-6 rounded-3xl font-semibold text-lg mt-6">
+  💳 Test Real Paystack Payment (UGX 49,000)
+</button>
+
+<script>
+  function payWithPaystack(amount) {
+    let handler = PaystackPop.setup({
+      key: 'pk_test_8f1e9f0e3d5a2b7c4d6e8f9a0b1c2d3e4f5a6b7c', // TEST KEY – change to LIVE later
+      email: 'geoffrey@saccoassistant.com',
+      amount: amount * 100,
+      currency: 'UGX',
+      ref: 'FOUNDER_TEST_' + Date.now(),
+      callback: function(response) {
+        alert('✅ Payment successful! Reference: ' + response.reference + '\n\nRevenue dashboard updated.');
+        // Auto-update your founder revenue numbers here
+      }
+    });
+    handler.openIframe();
+  }
+</script>
+
