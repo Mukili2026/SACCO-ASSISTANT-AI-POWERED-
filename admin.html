@@ -13,41 +13,98 @@
     .heading { font-family: 'Poppins', sans-serif; }
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-[#1E2A44]">
+<body class="bg-[#F8FAFC] text-[#1E2A44] min-h-screen">
 
   <div class="max-w-4xl mx-auto p-6">
+    <!-- Header -->
     <div class="flex items-center justify-between mb-10">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-[#00A651] rounded-2xl flex items-center justify-center text-white text-3xl">🌱</div>
+        <div class="w-12 h-12 bg-[#00A651] rounded-3xl flex items-center justify-center text-white text-4xl">🌱</div>
         <div>
           <span class="heading text-3xl font-bold text-[#00A651]">SACCO Assistant</span>
           <p class="text-sm opacity-70">Founder Dashboard — Geoffrey Obia</p>
         </div>
       </div>
-      <button onclick="window.location.href='demo.html'" class="px-6 py-3 border border-[#00A651] text-[#00A651] rounded-3xl">← Back to App</button>
+      <button onclick="window.location.href='demo.html'" 
+        class="px-8 py-3 border-2 border-[#00A651] text-[#00A651] rounded-3xl font-medium hover:bg-[#00A651] hover:text-white transition">
+        ← Back to App
+      </button>
     </div>
 
-    <!-- Professional Revenue Cards + Charts -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Total Revenue Card -->
-      <div class="bg-white rounded-3xl p-8 shadow">
-        <p class="opacity-70">Total Revenue This Month</p>
-        <p class="text-5xl font-bold text-[#00A651] mt-2" id="total-revenue">3,284,750 UGX</p>
+    <!-- Total Revenue Hero -->
+    <div class="bg-white rounded-3xl p-10 text-center mb-10 shadow">
+      <p class="text-sm opacity-70">Total Revenue This Month</p>
+      <p id="total-revenue" class="text-6xl font-bold text-[#00A651] mt-3">3,284,750 UGX</p>
+      <p class="text-emerald-600 mt-2 flex items-center justify-center gap-2">
+        <span class="text-lg">↑</span> 24% from last month
+      </p>
+    </div>
+
+    <!-- Breakdown Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white rounded-3xl p-6">
+        <p class="text-sm opacity-70">Subscriptions</p>
+        <p class="text-3xl font-semibold text-[#00A651] mt-2">1,240,000 UGX</p>
       </div>
-      <!-- Other cards for YTD, Active SACCOs, Delinquency -->
+      <div class="bg-white rounded-3xl p-6">
+        <p class="text-sm opacity-70">Transaction Fees</p>
+        <p class="text-3xl font-semibold text-[#00A651] mt-2">890,000 UGX</p>
+      </div>
+      <div class="bg-white rounded-3xl p-6">
+        <p class="text-sm opacity-70">1% Loan Charges</p>
+        <p class="text-3xl font-semibold text-[#00A651] mt-2">980,000 UGX</p>
+      </div>
+      <div class="bg-white rounded-3xl p-6">
+        <p class="text-sm opacity-70">Other Commissions</p>
+        <p class="text-3xl font-semibold text-[#00A651] mt-2">174,750 UGX</p>
+      </div>
+    </div>
+
+    <!-- Portfolio Health -->
+    <div class="bg-white rounded-3xl p-8 mb-10">
+      <h3 class="heading text-xl font-bold mb-6">Portfolio Health</h3>
+      <div class="grid grid-cols-3 gap-8 text-center">
+        <div>
+          <p class="text-sm opacity-70">Delinquency Rate</p>
+          <p class="text-4xl font-bold text-orange-500">6.8%</p>
+        </div>
+        <div>
+          <p class="text-sm opacity-70">Active Loans</p>
+          <p class="text-4xl font-bold">184</p>
+        </div>
+        <div>
+          <p class="text-sm opacity-70">Avg Loan Size</p>
+          <p class="text-4xl font-bold">428,000 UGX</p>
+        </div>
+      </div>
     </div>
 
     <!-- Paystack Test Button -->
     <button onclick="payWithPaystack(49000)" 
-      class="mt-8 w-full bg-[#00A651] text-white py-6 rounded-3xl font-semibold text-lg">
-      💳 Test Real Payment (UGX 49,000) — Paystack
+      class="w-full bg-[#00A651] hover:bg-[#006600] text-white py-7 rounded-3xl font-semibold text-lg mb-8 transition">
+      💳 Test Real Payment (UGX 49,000) – Paystack
     </button>
+
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-3xl p-8">
+      <h3 class="font-medium mb-6">Recent Revenue Activity</h3>
+      <div class="space-y-4 text-sm">
+        <div class="flex justify-between"><span>1% fee from new loan (Kireka SACCO)</span><span class="text-[#00A651]">+45,000 UGX</span></div>
+        <div class="flex justify-between"><span>Subscription – Mukono Women VSLA</span><span class="text-[#00A651]">+49,000 UGX</span></div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <p class="text-xs opacity-60 text-center mt-12 px-6">
+      SACCO Assistant assists licensed SACCOs only. It does not provide banking or lending services. 
+      All financial decisions and regulatory compliance remain your SACCO’s responsibility.
+    </p>
   </div>
 
   <script>
     function payWithPaystack(amount) {
       const handler = PaystackPop.setup({
-        key: 'pk_test_8f1e9f0e3d5a2b7c4d6e8f9a0b1c2d3e4f5a6b7c', // Replace with your LIVE key when ready
+        key: 'pk_test_8f1e9f0e3d5a2b7c4d6e8f9a0b1c2d3e4f5a6b7c', // ← Replace with your LIVE key later
         email: 'geoffrey@saccoassistant.com',
         amount: amount * 100,
         currency: 'UGX',
