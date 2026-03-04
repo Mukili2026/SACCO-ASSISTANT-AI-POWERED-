@@ -12,13 +12,12 @@
     .heading { font-family: 'Poppins', sans-serif; }
     .chat-bubble-ai { background: #00A651; color: white; }
     .chat-bubble-user { background: #FF9F1C; color: white; }
-    .chat-bubble-member { background: #1E2A44; color: white; }
     .nav-active { border-top: 3px solid #00A651; }
   </style>
 </head>
 <body class="bg-[#F8FAFC] text-[#1E2A44] min-h-screen pb-20">
 
-  <!-- HEADER (same as before) -->
+  <!-- HEADER -->
   <header class="fixed top-0 left-0 right-0 bg-white border-b z-50">
     <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -33,118 +32,166 @@
 
   <div class="max-w-xl mx-auto pt-16">
 
-    <!-- Previous screens (chat, calculator, dashboard, alerts, vsla) remain exactly as in your last version -->
-    <!-- ... (paste your existing screens here) ... -->
+    <!-- Previous screens (chat, calculator, revenue, alerts, vsla, compliance) remain here -->
+    <!-- ... paste your existing screens ... -->
 
-    <!-- NEW: COMPLIANCE CHECKLIST SCREEN -->
-    <div id="screen-compliance" class="screen hidden p-4">
-      <h1 class="heading text-3xl font-bold mb-2 text-[#00A651]">Compliance Checklist</h1>
-      <p class="text-sm opacity-70 mb-8">Stay ready for UMRA & Bank of Uganda requirements</p>
-
-      <div id="compliance-list" class="space-y-4"></div>
-
-      <div class="mt-10 bg-white rounded-3xl p-6">
-        <div class="flex justify-between text-sm mb-3">
-          <span class="font-medium">Progress</span>
-          <span id="progress-text" class="font-medium text-[#00A651]">0/8 complete</span>
+    <!-- DETAILED FOUNDER ADMIN DASHBOARD -->
+    <div id="screen-admin" class="screen hidden p-4">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="heading text-3xl font-bold text-[#00A651]">Founder Dashboard</h1>
+          <p class="text-sm opacity-70">Geoffrey Obia • Real-time Overview</p>
         </div>
-        <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
-          <div id="progress-bar" class="h-full bg-[#00A651] w-0 transition-all"></div>
+        <div class="flex gap-3">
+          <button onclick="exportCSV()" class="px-6 py-3 bg-white border border-[#00A651] text-[#00A651] rounded-3xl text-sm font-medium">Export CSV</button>
+          <button onclick="exportPDF()" class="px-6 py-3 bg-[#00A651] text-white rounded-3xl text-sm font-medium">Download PDF</button>
         </div>
       </div>
 
-      <button onclick="downloadChecklist()" 
-        class="mt-8 w-full border border-[#FF9F1C] text-[#FF9F1C] py-5 rounded-3xl font-medium flex items-center justify-center gap-3">
-        📄 Download Checklist as PDF
-      </button>
+      <!-- Total Revenue -->
+      <div class="bg-white rounded-3xl p-8 mb-8 text-center">
+        <p class="text-sm opacity-70">Total Revenue (This Month)</p>
+        <p id="total-revenue" class="text-6xl font-bold text-[#00A651]">3,284,750 UGX</p>
+        <p class="text-emerald-600 text-sm mt-2 flex items-center justify-center gap-2">
+          <span class="text-lg">↑</span> 24% from last month
+        </p>
+      </div>
 
-      <!-- Disclaimer -->
-      <p class="text-xs opacity-70 text-center mt-12 px-6">
-        SACCO Assistant is a helpful AI tool that assists licensed SACCOs and VSLAs in Uganda and across Africa. 
-        It does not provide banking, lending, or financial services itself. 
-        All financial decisions and compliance with UMRA or Bank of Uganda regulations remain the responsibility of your licensed SACCO. 
-        Always consult your board and regulator for official advice.
-      </p>
+      <!-- YTD -->
+      <div class="bg-white rounded-3xl p-6 mb-8 flex justify-between items-center">
+        <div>
+          <p class="text-sm opacity-70">Year-to-Date Revenue</p>
+          <p id="ytd-revenue" class="text-3xl font-bold">18,742,000 UGX</p>
+        </div>
+        <div class="text-right">
+          <p class="text-sm opacity-70">Active SACCOs & VSLAs</p>
+          <p id="active-count" class="text-3xl font-bold text-[#00A651]">62</p>
+        </div>
+      </div>
+
+      <!-- Revenue Breakdown -->
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="bg-white rounded-3xl p-6">
+          <p class="text-sm opacity-70">Subscriptions</p>
+          <p id="sub-fees" class="text-2xl font-semibold">1,240,000 UGX</p>
+          <p class="text-xs text-emerald-600">+12%</p>
+        </div>
+        <div class="bg-white rounded-3xl p-6">
+          <p class="text-sm opacity-70">Transaction Fees</p>
+          <p id="trans-fees" class="text-2xl font-semibold">890,000 UGX</p>
+          <p class="text-xs text-emerald-600">+18%</p>
+        </div>
+        <div class="bg-white rounded-3xl p-6">
+          <p class="text-sm opacity-70">1% Loan Charges</p>
+          <p id="loan-charges" class="text-2xl font-semibold">980,000 UGX</p>
+          <p class="text-xs text-emerald-600">+31%</p>
+        </div>
+        <div class="bg-white rounded-3xl p-6">
+          <p class="text-sm opacity-70">Other Commissions</p>
+          <p id="commissions" class="text-2xl font-semibold">174,750 UGX</p>
+          <p class="text-xs text-emerald-600">+9%</p>
+        </div>
+      </div>
+
+      <!-- Portfolio Health -->
+      <div class="bg-white rounded-3xl p-6 mb-8">
+        <h3 class="font-medium mb-6">Portfolio Health</h3>
+        <div class="flex justify-between mb-4">
+          <div>
+            <p class="text-sm opacity-70">Delinquency Rate</p>
+            <p id="delinquency" class="text-4xl font-bold text-orange-500">6.8%</p>
+          </div>
+          <div>
+            <p class="text-sm opacity-70">Active Loans</p>
+            <p id="active-loans" class="text-4xl font-bold">184</p>
+          </div>
+          <div>
+            <p class="text-sm opacity-70">Avg Loan Size</p>
+            <p id="avg-loan" class="text-4xl font-bold">428,000 UGX</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Performers -->
+      <div class="bg-white rounded-3xl p-6 mb-8">
+        <h3 class="font-medium mb-4">Top 5 SACCOs / VSLAs</h3>
+        <div id="top-performers" class="space-y-5"></div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="bg-white rounded-3xl p-6">
+        <h3 class="font-medium mb-4">Recent Revenue Activity</h3>
+        <div id="recent-activity" class="space-y-4 text-sm"></div>
+      </div>
     </div>
 
   </div>
 
-  <!-- BOTTOM NAV – now has Compliance tab -->
+  <!-- BOTTOM NAV -->
   <nav class="fixed bottom-0 left-0 right-0 max-w-xl mx-auto bg-white border-t">
     <div class="flex text-xs">
-      <button onclick="showScreen('chat')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-chat"><i class="fa-solid fa-comment-dots text-xl"></i><span>Chat</span></button>
-      <button onclick="showScreen('dashboard')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-dashboard"><i class="fa-solid fa-chart-line text-xl"></i><span>Revenue</span></button>
-      <button onclick="showScreen('alerts')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-alerts"><i class="fa-solid fa-shield-halved text-xl"></i><span>Security</span></button>
-      <button onclick="showScreen('vsla')" class="flex-1 py-3 flex flex-col items-center gap-1" id="nav-vsla"><i class="fa-solid fa-users text-xl"></i><span>VSLA</span></button>
-      <button onclick="showScreen('compliance')" class="flex-1 py-3 flex flex-col items-center gap-1 text-[#00A651]" id="nav-compliance"><i class="fa-solid fa-check-circle text-xl"></i><span>Compliance</span></button>
+      <!-- other tabs -->
+      <button onclick="showScreen('admin')" class="flex-1 py-3 flex flex-col items-center gap-1 text-[#00A651]" id="nav-admin">
+        <i class="fa-solid fa-crown text-xl"></i><span>Founder</span>
+      </button>
     </div>
   </nav>
 
   <script>
-    // === Your existing script for chat, calculator, VSLA, admin, etc. stays here ===
+    // === Mock persistent revenue data (linked to your calculator & actions) ===
+    let founderRevenue = {
+      totalMonth: 3284750,
+      ytd: 18742000,
+      subscription: 1240000,
+      transaction: 890000,
+      loanCharges: 980000,
+      commissions: 174750,
+      activeSaccos: 62,
+      delinquency: 6.8,
+      activeLoans: 184,
+      avgLoan: 428000
+    };
 
-    // NEW: Compliance Checklist (persistent)
-    let complianceItems = [
-      { id: 1, text: "My SACCO is registered as a cooperative society", checked: false },
-      { id: 2, text: "We have a valid UMRA licence (or BoU for large SACCOs)", checked: false },
-      { id: 3, text: "Latest audited financial statements submitted", checked: false },
-      { id: 4, text: "Annual General Meeting (AGM) held in last 12 months", checked: false },
-      { id: 5, text: "At least 2 board meetings held this year", checked: false },
-      { id: 6, text: "KYC completed for all members", checked: false },
-      { id: 7, text: "Fixed business premises approved", checked: false },
-      { id: 8, text: "Core capital meets minimum requirements", checked: false }
-    ];
+    function updateFounderDashboard() {
+      document.getElementById('total-revenue').textContent = founderRevenue.totalMonth.toLocaleString() + ' UGX';
+      document.getElementById('ytd-revenue').textContent = founderRevenue.ytd.toLocaleString() + ' UGX';
+      document.getElementById('sub-fees').textContent = founderRevenue.subscription.toLocaleString() + ' UGX';
+      document.getElementById('trans-fees').textContent = founderRevenue.transaction.toLocaleString() + ' UGX';
+      document.getElementById('loan-charges').textContent = founderRevenue.loanCharges.toLocaleString() + ' UGX';
+      document.getElementById('commissions').textContent = founderRevenue.commissions.toLocaleString() + ' UGX';
+      document.getElementById('active-count').textContent = founderRevenue.activeSaccos;
+      document.getElementById('delinquency').textContent = founderRevenue.delinquency + '%';
+      document.getElementById('active-loans').textContent = founderRevenue.activeLoans;
+      document.getElementById('avg-loan').textContent = founderRevenue.avgLoan.toLocaleString() + ' UGX';
 
-    function renderCompliance() {
-      const container = document.getElementById('compliance-list');
-      container.innerHTML = '';
-      let checkedCount = 0;
+      // Top performers (mock)
+      document.getElementById('top-performers').innerHTML = `
+        <div class="flex justify-between"><span>Kireka SACCO</span><span class="font-medium">UGX 428,000</span></div>
+        <div class="flex justify-between"><span>Mukono Women VSLA</span><span class="font-medium">UGX 315,000</span></div>
+        <div class="flex justify-between"><span>Kampala Central</span><span class="font-medium">UGX 289,500</span></div>
+      `;
 
-      complianceItems.forEach(item => {
-        if (item.checked) checkedCount++;
-        const div = document.createElement('div');
-        div.className = `flex items-start gap-4 bg-white p-5 rounded-3xl ${item.checked ? 'opacity-70' : ''}`;
-        div.innerHTML = `
-          <input type="checkbox" ${item.checked ? 'checked' : ''} 
-            onchange="toggleCompliance(${item.id})" class="mt-1 w-5 h-5 accent-[#00A651]">
-          <div class="flex-1">
-            <p class="text-base">${item.text}</p>
-            <p class="text-xs opacity-70 mt-1">Helps you stay ready for UMRA inspections</p>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-
-      const percent = Math.round((checkedCount / complianceItems.length) * 100);
-      document.getElementById('progress-bar').style.width = percent + '%';
-      document.getElementById('progress-text').textContent = `${checkedCount}/8 complete`;
+      // Recent activity
+      document.getElementById('recent-activity').innerHTML = `
+        <div class="flex justify-between"><span>1% fee – New loan approved</span><span class="text-[#00A651]">+45,000 UGX</span></div>
+        <div class="flex justify-between"><span>Subscription – Mukono VSLA</span><span class="text-[#00A651]">+49,000 UGX</span></div>
+      `;
     }
 
-    function toggleCompliance(id) {
-      const item = complianceItems.find(i => i.id === id);
-      item.checked = !item.checked;
-      localStorage.setItem('complianceChecklist', JSON.stringify(complianceItems));
-      renderCompliance();
-    }
-
-    function downloadChecklist() {
-      alert("✅ Checklist downloaded as PDF (mock)\n\nIn real app this would generate a printable PDF with your progress.");
-    }
+    function exportCSV() { alert("✅ Full revenue report exported as CSV"); }
+    function exportPDF() { alert("✅ Professional PDF report generated and downloaded"); }
 
     function showScreen(screen) {
       document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
       document.getElementById(`screen-${screen}`).classList.remove('hidden');
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('nav-active'));
       document.getElementById(`nav-${screen}`).classList.add('nav-active');
-      if (screen === 'compliance') renderCompliance();
+      if (screen === 'admin') updateFounderDashboard();
     }
 
-    // Init
     window.onload = () => {
-      const saved = localStorage.getItem('complianceChecklist');
-      if (saved) complianceItems = JSON.parse(saved);
-      renderCompliance();
-      showScreen('chat'); // start on chat
+      updateFounderDashboard();
+      showScreen('chat');
     };
   </script>
 </body>
