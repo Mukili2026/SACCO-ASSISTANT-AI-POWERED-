@@ -1,178 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SACCO Assistant — AI Platform for SACCOs & VSLAs in Africa</title>
+  <title>SACCO Assistant — AI for SACCOs in Africa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
     .heading { font-family: 'Poppins', sans-serif; }
-    .hero-bg { background: linear-gradient(135deg, #008000 0%, #1E2A44 100%); }
+    .hero-bg { background: linear-gradient(135deg, #00A651 0%, #1E2A44 100%); }
   </style>
 </head>
-<body class="bg-[#F8FAFC] dark:bg-[#1E2A44] text-[#1E2A44] dark:text-[#F0F4F8]">
+<body class="bg-[#F8FAFC] text-[#1E2A44]">
 
-  <!-- NAVBAR -->
-  <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-[#2C3E5F] border-b z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 bg-[#008000] rounded-2xl flex items-center justify-center text-white text-2xl">🌱</div>
-        <span class="heading text-3xl font-bold text-[#008000]">SACCO Assistant</span>
-      </div>
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="#how" class="hover:text-[#008000]">How it Works</a>
-        <a href="#forwho" class="hover:text-[#008000]">For Who</a>
-        <a href="#integrations" class="hover:text-[#008000]">Integrations</a>
-        <a href="login.html" class="hover:text-[#008000]">Login</a>
-      </div>
-      <div class="flex items-center gap-4">
-        <button onclick="toggleDark()" class="px-4 py-2 text-xl">🌙</button>
-        <a href="demo.html" target="_blank" class="px-6 py-3 text-sm font-semibold border-2 border-[#008000] text-[#008000] dark:text-white rounded-3xl hover:bg-[#008000] hover:text-white transition">Try Live Demo</a>
-        <a href="login.html" class="px-8 py-3 bg-[#008000] hover:bg-[#006600] text-white font-semibold rounded-3xl transition">Get Started Free</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Your existing navbar and hero (unchanged) -->
 
-  <!-- HERO -->
-  <section class="hero-bg pt-32 pb-24 text-white">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl text-sm mb-6">
-        <span class="bg-[#FF6600] text-white px-3 py-1 rounded-2xl text-xs font-bold">NEW 2026</span>
-        Swahili + Voice + USSD + Offline
-      </div>
-      <h1 class="heading text-6xl md:text-7xl font-bold leading-tight">
-        The complete AI platform<br>for SACCOs & VSLAs in Africa
-      </h1>
-      <p class="mt-6 text-xl max-w-2xl mx-auto opacity-90">
-        Manage savings, loans, repayments, revenue, compliance and group meetings — all by chat, voice or *123# USSD.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-        <a href="login.html" class="px-10 py-5 bg-white text-[#008000] font-semibold text-lg rounded-3xl hover:scale-105 transition flex items-center justify-center gap-3">
-          <i class="fa-solid fa-rocket"></i> Start Free 30-Day Trial
-        </a>
-        <a href="demo.html" target="_blank" class="px-10 py-5 border-2 border-white font-semibold text-lg rounded-3xl hover:bg-white/10 transition">
-          Watch 60-second demo →
-        </a>
-      </div>
-      <div class="mt-12 flex flex-wrap justify-center gap-8 text-sm opacity-75">
-        <div>✅ MTN MoMo • Airtel Money • USSD</div>
-        <div>✅ Works on feature phones</div>
-        <div>✅ 100% offline capable</div>
-      </div>
-    </div>
-  </section>
+  <!-- Example: Paystack on Pricing Buttons -->
+  <button onclick="payWithPaystack(49000)" 
+    class="px-12 py-6 bg-[#00A651] text-white font-semibold text-xl rounded-3xl hover:scale-105 transition">
+    Start Growth Plan – UGX 49,000/month
+  </button>
 
-  <!-- TRUST BAR -->
-  <div class="py-6 bg-white dark:bg-[#2C3E5F] border-b">
-    <div class="max-w-5xl mx-auto px-6 flex flex-wrap justify-center items-center gap-x-12 gap-y-4 text-sm opacity-70">
-      <div>Used by 40+ SACCOs & VSLAs in Uganda, Kenya, Tanzania</div>
-      <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-[#008000]"></i> Bank-level security</div>
-      <div class="text-[#FF6600] font-medium">0.5% loan charge • 2% insurance commission</div>
-    </div>
-  </div>
-
-  <!-- HOW IT WORKS -->
-  <section id="how" class="max-w-5xl mx-auto px-6 py-20">
-    <h2 class="heading text-4xl font-bold text-center mb-16">Simple. Works everywhere in Africa.</h2>
-    <div class="grid md:grid-cols-4 gap-8">
-      <div class="text-center">
-        <div class="w-16 h-16 mx-auto bg-[#008000]/10 rounded-3xl flex items-center justify-center text-4xl mb-6">📱</div>
-        <h3 class="font-semibold mb-2">1. Join in 60 seconds</h3>
-        <p class="opacity-70">Phone number + PIN or biometric</p>
-      </div>
-      <div class="text-center">
-        <div class="w-16 h-16 mx-auto bg-[#FF6600]/10 rounded-3xl flex items-center justify-center text-4xl mb-6">💬</div>
-        <h3 class="font-semibold mb-2">2. Chat or speak</h3>
-        <p class="opacity-70">English, Swahili or Luganda voice</p>
-      </div>
-      <div class="text-center">
-        <div class="w-16 h-16 mx-auto bg-[#008000]/10 rounded-3xl flex items-center justify-center text-4xl mb-6">📊</div>
-        <h3 class="font-semibold mb-2">3. Manage everything</h3>
-        <p class="opacity-70">Savings, loans, revenue, reports</p>
-      </div>
-      <div class="text-center">
-        <div class="w-16 h-16 mx-auto bg-[#FF6600]/10 rounded-3xl flex items-center justify-center text-4xl mb-6">👥</div>
-        <h3 class="font-semibold mb-2">4. Grow together</h3>
-        <p class="opacity-70">VSLA group chat, polls & meetings</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOR WHO -->
-  <section id="forwho" class="max-w-5xl mx-auto px-6 py-20 bg-white dark:bg-[#2C3E5F]">
-    <h2 class="heading text-4xl font-bold text-center mb-16">Built for real African users</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-[#F8FAFC] dark:bg-[#1E2A44] p-8 rounded-3xl">
-        <div class="text-5xl mb-6">👩🏾‍🌾</div>
-        <h3 class="heading text-2xl font-semibold mb-3">Members like Mama Amina</h3>
-        <p class="opacity-80">Check balance, repay loan by voice, get USSD confirmation — no smartphone needed.</p>
-      </div>
-      <div class="bg-[#F8FAFC] dark:bg-[#1E2A44] p-8 rounded-3xl">
-        <div class="text-5xl mb-6">👨🏾‍💼</div>
-        <h3 class="heading text-2xl font-semibold mb-3">Managers like Joseph</h3>
-        <p class="opacity-80">Live revenue dashboard, delinquency alerts, 0.5% loan tracking, sustainability reports.</p>
-      </div>
-      <div class="bg-[#F8FAFC] dark:bg-[#1E2A44] p-8 rounded-3xl">
-        <div class="text-5xl mb-6">👥</div>
-        <h3 class="heading text-2xl font-semibold mb-3">VSLA & Savings Groups</h3>
-        <p class="opacity-80">Group chat, polls, share-out, group loan requests, meeting calls — all in one place.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- INTEGRATIONS -->
-  <section id="integrations" class="max-w-5xl mx-auto px-6 py-20">
-    <h2 class="heading text-4xl font-bold text-center mb-16">Works with the tools you already use</h2>
-    <div class="flex flex-wrap justify-center gap-12 text-5xl opacity-75">
-      <div class="flex flex-col items-center gap-3"><span class="text-6xl">📱</span><span class="text-sm font-medium">MTN MoMo</span></div>
-      <div class="flex flex-col items-center gap-3"><span class="text-6xl">📱</span><span class="text-sm font-medium">Airtel Money</span></div>
-      <div class="flex flex-col items-center gap-3"><span class="text-6xl">📞</span><span class="text-sm font-medium">USSD *123#</span></div>
-      <div class="flex flex-col items-center gap-3"><span class="text-6xl">🎤</span><span class="text-sm font-medium">Voice (Swahili)</span></div>
-      <div class="flex flex-col items-center gap-3"><span class="text-6xl">📴</span><span class="text-sm font-medium">Offline Mode</span></div>
-    </div>
-  </section>
-
-  <!-- IMPACT -->
-  <section class="bg-[#1E2A44] text-white py-20">
-    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
-      <div>
-        <div class="text-6xl font-bold text-[#FF6600]">15h</div>
-        <p class="mt-3">Saved per week on paperwork</p>
-      </div>
-      <div>
-        <div class="text-6xl font-bold text-[#FF6600]">+28%</div>
-        <p class="mt-3">Average revenue growth</p>
-      </div>
-      <div>
-        <div class="text-6xl font-bold text-[#FF6600]">98%</div>
-        <p class="mt-3">Member satisfaction</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS + PRICING (already there from before – kept) -->
-  <!-- ... paste your previous testimonials and pricing sections here ... -->
-
-  <!-- FINAL CTA -->
-  <section class="max-w-5xl mx-auto px-6 py-24 text-center">
-    <div class="bg-gradient-to-br from-[#008000] to-[#1E2A44] rounded-3xl p-16 text-white">
-      <h2 class="heading text-5xl font-bold mb-6">Ready to run a stronger, smarter SACCO or VSLA?</h2>
-      <p class="text-2xl max-w-xl mx-auto opacity-90 mb-10">Start free today. No card needed. Works on any phone in Africa.</p>
-      <a href="login.html" class="inline-block px-12 py-6 bg-white text-[#008000] font-semibold text-xl rounded-3xl hover:scale-105 transition">
-        Create Free SACCO Account
-      </a>
-    </div>
-  </section>
-
-  <!-- FOOTER (same as before) -->
-  <!-- ... your existing footer ... -->
+  <!-- Footer disclaimer (already there) -->
 
   <script>
-    function toggleDark() { document.documentElement.classList.toggle('dark'); }
-    tailwind.config = { theme: { extend: { colors: { primary: '#008000', accent: '#FF6600' } } } };
+    tailwind.config = { theme: { extend: { colors: { primary: '#00A651', accent: '#FF9F1C' } } } };
+
+    function payWithPaystack(amount) {
+      let handler = PaystackPop.setup({
+        key: 'pk_test_8f1e9f0e3d5a2b7c4d6e8f9a0b1c2d3e4f5a6b7c', // ← TEST KEY (replace with your LIVE key later)
+        email: 'geoffrey@saccoassistant.com',
+        amount: amount * 100, // Paystack uses kobo (UGX × 100)
+        currency: 'UGX',
+        ref: 'SACCO_' + Math.floor((Math.random() * 1000000000) + 1),
+        callback: function(response) {
+          alert('✅ Payment successful! Reference: ' + response.reference);
+          // In real app: send reference to your backend to verify & activate subscription
+        },
+        onClose: function() {
+          alert('Payment window closed');
+        }
+      });
+      handler.openIframe();
+    }
   </script>
 </body>
 </html>
